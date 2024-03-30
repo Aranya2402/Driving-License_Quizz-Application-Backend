@@ -6,6 +6,10 @@ app.use(express.json());
 
 app.post('/auth/sign-in', authController.signInUser);
 
+app.get('/', (req, res) => {
+    res.send("hellllo")
+})
+
 // 
 
 module.exports = app;
