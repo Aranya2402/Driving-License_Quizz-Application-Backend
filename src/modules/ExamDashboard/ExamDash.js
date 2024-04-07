@@ -6,10 +6,14 @@ const bodyParser = require('body-parser');
 
 const router = express.Router();
 
+
 // Middleware
+
 router.use(bodyParser.json());
 
+
 // MongoDB Connection
+
 mongoose.connect('mongodb://localhost:27017/ExamsDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -18,17 +22,14 @@ mongoose.connect('mongodb://localhost:27017/ExamsDB', {
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+
 // Exam Schema
-const examSchema = new mongoose.Schema({
-  title: String,
-  image: String,
-  description: String,
-  rangeStart: Number,
-  rangeEnd: Number,
-}, { collection: 'Easy'});
-const Exam = mongoose.model('Exam', examSchema);
+
+const Exam = require('../../models/ExamDB');
+
 
 // Routes
+
 router.get('/exams', async (req, res) => {
   try {
     const exams = await Exam.find();
@@ -56,5 +57,7 @@ router.post('/exams', async (req, res) => {
     res.status(500).json({ error: 'Failed to add exam' });
   }
 });
+
+
 // Export router
 module.exports = router;
