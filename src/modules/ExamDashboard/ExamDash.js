@@ -15,8 +15,7 @@ router.use(bodyParser.json());
 // MongoDB Connection
 
 mongoose.connect('mongodb://localhost:27017/ExamsDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  
   
 });
 const db = mongoose.connection;

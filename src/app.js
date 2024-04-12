@@ -19,13 +19,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const ExamDash = require('./modules/ExamDashboard/ExamDash');
+const userActivity = require('./modules/UserActivityLog/UserActivity'); 
+const certificateRouter = require('./modules/DCertificate/Certificate');
+
 
 const app = express();
 // Middleware
 app.use(bodyParser.json());
 
 // Routes
-app.use('/api/exam-dashboard/exams', ExamDash);
+// app.use('/api/exam-dashboard/exams', ExamDash);
 
-module.exports = app; // Export the app instance
+
+// app.route('/user-activity')
+// .post(userActivity.login)
+// .post( userActivity.logout)
+// .get( userActivity.getAttemptedExams);
+
+
+app.use('/certificates', certificateRouter);
+
+module.exports = app; 
 
