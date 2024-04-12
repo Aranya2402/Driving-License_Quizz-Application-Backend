@@ -28,7 +28,7 @@ exports.login = (req, res) => {
     })
     .catch((error) => {
       console.error('Error logging user in:', error);
-      res.status(500).send('Error logging user in');
+      res.status(500).send('Error logging user in: ' + error.message);
     });
 };
 
@@ -56,7 +56,7 @@ exports.logout = (req, res) => {
           })
           .catch((error) => {
             console.error('Error logging user out:', error);
-            res.status(500).send('Error logging user out');
+            res.status(500).send('Error logging user out: ' + error.message);
           });
       } else {
         res.status(404).send('No login activity found for the user');
@@ -64,7 +64,7 @@ exports.logout = (req, res) => {
     })
     .catch((error) => {
       console.error('Error finding login activity:', error);
-      res.status(500).send('Error finding login activity');
+      res.status(500).send('Error finding login activity: ' + error.message); 
     });
 };
   
@@ -78,9 +78,10 @@ exports.getAttemptedExams = (req, res) => {
     const getUserId = (req) => {
       // Implement this function to extract user ID from the request ,store pannathu request body laya,request parameters ah or, request headers ah
     };
+    
     const userId = getUserId(req);
     
-    // Find all activity log entries of type 'examAttempt' for the given user ID
+    // Find all activity log entries 
     ActivityLog.find({ userId, type: 'examAttempt' })
       .populate('examId') // Populate the 'examId' field with exam details
       .then((attemptedExams) => {
@@ -88,7 +89,7 @@ exports.getAttemptedExams = (req, res) => {
       })
       .catch((error) => {
         console.error('Error retrieving attempted exams:', error);
-        res.status(500).send('Error retrieving attempted exams');
+        res.status(500).send('Error retrieving attempted exams: ' + error.message);
       });
   };
   
