@@ -8,7 +8,7 @@ const nodemailer = require('nodemailer');
 const router = express.Router();
 
 // Generate a digital certificate PDF
-const generateCertificate = (recipientName, courseName, completionDate, issuerName) => {
+const generateCertificate = (recipientName, courseName, completionDate) => {
   const doc = new PDFDocument();
 
   doc.fontSize(20).text('Certificate of Completion', { align: 'center' });
@@ -17,7 +17,7 @@ const generateCertificate = (recipientName, courseName, completionDate, issuerNa
   doc.moveDown();
   doc.fontSize(12).text(`Date of Completion: ${completionDate}`);
   doc.moveDown();
-  doc.fontSize(10).text(`Issued by: ${issuerName}`);
+  doc.fontSize(10).text(`Issued by: CoBit05`);
 
   const filePath = `./certificates/${recipientName}_${courseName}_Certificate.pdf`;
   doc.pipe(fs.createWriteStream(filePath));
