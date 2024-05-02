@@ -2,11 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const questionRouter = require('./src/routes/addQuestions')
-const cors = require('cors');
+
 
 app.use(express.json())
 
-app.use(cors());
 
 app.use('/questions' , questionRouter)
 
