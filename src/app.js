@@ -12,6 +12,10 @@ app.post(
 );
 
 
+app.get('/', (req, res) => {
+    res.send("hellllo")
+})
+
 // 
 
 module.exports = app;
