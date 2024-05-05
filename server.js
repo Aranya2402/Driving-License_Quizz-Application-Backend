@@ -7,7 +7,7 @@ const port = 3000;
 
 app.use('/questions' , questionRouter)
 
-mongoose.connect('mongodb://localhost:27017/onlinedrivingquiz')
+mongoose.connect('mongodb://localhost:27017/FinalProject')
     .then(r => {
         console.log("MongoDB connected")
     })

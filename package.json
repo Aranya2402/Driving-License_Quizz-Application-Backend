@@ -15,11 +15,11 @@
     "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "mongodb": "^6.5.0",
-    "mongoose": "^8.2.4",
+    "mongoose": "^8.3.3",
     "nodemailer": "^6.9.13",
-    "pdfkit": "^0.15.0"
+    "pdfkit": "^0.15.0",
     "cors": "^2.8.5",
-    "express-validator": "^7.0.1",
+    "express-validator": "^7.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
