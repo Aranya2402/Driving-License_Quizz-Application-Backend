@@ -26,7 +26,7 @@ const certificateRouter = require('./modules/DCertificate/Certificate');
 
 const authController = require('./modules/auth/auth-controller');
 
-const addQuestionController = require("./routes/AddQuestions");
+const addQuestionController = require("./routes/AddQuestions_Lehaan");
 const viewResult = require("./routes/ViewResult");
 const submitQuiz = require("./routes/SubmitQuiz");
 const getAttemptedQuizzes = require("./routes/GetQuizAttempt")
