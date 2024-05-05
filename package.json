@@ -12,6 +12,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "express-validator": "^7.0.1",
     "mongoose": "^8.2.4"
   },
   "devDependencies": {

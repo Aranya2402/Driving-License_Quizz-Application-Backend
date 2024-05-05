@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const authController = require('./modules/auth/auth-controller');
+const { body } = require('express-validator');
 
 const addQuestionController = require("./routes/AddQuestions");
 const viewResult = require("./routes/ViewResult");
@@ -13,7 +14,12 @@ const createCandidate = require("./routes/CreateCandidate")
 app.use(express.json());
 app.use(cors());
 
-app.post('/auth/sign-in', authController.signInUser);
+app.post(
+    '/auth/sign-in', // path
+    body('email').isEmail(), // f1
+    authController.signInUser // f2
+);
+
 
 app.get('/', (req, res) => {
     res.send("hellllo")
