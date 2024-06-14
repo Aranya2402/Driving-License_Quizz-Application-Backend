@@ -1,11 +1,15 @@
 
 const app = require("./src/app");
-const port = process.env.PORT || 5000;
 
-// Start server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+const mongoose = require("mongoose");
+const port = 3000;
 
+mongoose.connect('mongodb://localhost:27017/onlinedrivingquiz')
+    .then(r => {
+        console.log("MongoDB connected")
+    })
+    .catch(err => {
+        console.log("Error connecting mongodb", err);
+    })
 
-// C:\Users\arany\OneDrive\Desktop\backend\src\app.js,C:\Users\arany\OneDrive\Desktop\backend\src\modules\ExamDashboard\ExamDash.js
+app.listen( port, () => console.log("Server is running"));
