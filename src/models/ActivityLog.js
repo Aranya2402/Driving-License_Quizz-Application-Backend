@@ -4,11 +4,12 @@ const mongoose = require('mongoose');
 
 const activityLogSchema = new mongoose.Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
   },
   action: {
     type: String,
+    enum: ['User logged in', 'User logged out', 'User attempting'],
     required: true,
   },
   timestamp: {
@@ -17,17 +18,8 @@ const activityLogSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['login', 'logout', 'examAttempt'],
+    enum: ['online', 'offline', 'attempting'],
     required: true,
-  },
-  examId: {
-    type: mongoose.Schema.Types.ObjectId,
-  },
-  loginTime: {
-    type: String,
-  },
-  logoutTime: {
-    type: String,
   },
 });
 

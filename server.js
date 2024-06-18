@@ -1,15 +1,15 @@
-
 const app = require("./src/app");
-
 const mongoose = require("mongoose");
-const port = 3000;
+const port = 3002;
 
-mongoose.connect('mongodb://localhost:27017/onlinedrivingquiz')
-    .then(r => {
-        console.log("MongoDB connected")
-    })
-    .catch(err => {
-        console.log("Error connecting mongodb", err);
-    })
-
-app.listen( port, () => console.log("Server is running"));
+mongoose.connect('mongodb://localhost:27017/onlinedrivingquiz', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log("MongoDB connected");
+  app.listen(port, () => console.log(`Server is running on port ${port}`));
+})
+.catch((err) => {
+  console.error("Error connecting to MongoDB:", err);
+});

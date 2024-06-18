@@ -53,18 +53,25 @@ app.post(
 // app.route('/user-activity')
 // .post(userActivity.login)
 // .post( userActivity.logout)
-// .get( userActivity.getAttemptedExams);
 
+//aranya
+app.post('/user-activity/login', userActivity.login); 
+app.post('/user-activity/logout', userActivity.logout); 
+app.post('/user-activity/attempting', userActivity.attempting );
+
+app.get('/user-activity/check', (req, res) => {
+    res.send('User activity log module is running successfully!');
+});
 
 // Lehaan
-app.use('/addQA', addQuestionController);
-app.use('/viewResult', viewResult);
-app.use('/attempt', submitQuiz);
-app.use('/getattempts', getAttemptedQuizzes);
-app.use('/newquiz', createQuiz);
-app.use('/candidate', createCandidate);
+// app.use('/addQA', addQuestionController);
+// app.use('/viewResult', viewResult);
+// app.use('/attempt', submitQuiz);
+// app.use('/getattempts', getAttemptedQuizzes);
+// app.use('/newquiz', createQuiz);
+// app.use('/candidate', createCandidate);
 
-app.use('/certificates', certificateRouter);
+// app.use('/certificates', certificateRouter);
 
 module.exports = app; 
 
