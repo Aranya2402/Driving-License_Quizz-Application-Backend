@@ -15,6 +15,7 @@ const submitQuiz = require("./routes/SubmitQuiz");
 const getAttemptedQuizzes = require("./routes/GetQuizAttempt")
 const createQuiz = require("./routes/CreateQuiz");
 const createCandidate = require("./routes/CreateCandidate")
+const authRouter = require("./routes/auth");
 
 const app = express();
 
@@ -22,20 +23,7 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post(
-    '/auth/sign-in', // path
-    body('email').isEmail(), // f1
-    authController.signInUser // f2
-);
-
-
-// Routes
-// app.use('/api/exam-dashboard/exams', ExamDash);
-
-// app.route('/user-activity')
-// .post(userActivity.login)
-// .post( userActivity.logout)
-// .get( userActivity.getAttemptedExams);
+app.use( '/api/auth', authRouter );
 
 
 // Lehaan
