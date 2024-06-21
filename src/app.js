@@ -63,6 +63,9 @@ app.get('/user-activity/check', (req, res) => {
     res.send('User activity log module is running successfully!');
 });
 
+app.use('/certificates', certificateRouter); // Mount certificateRouter under /certificates path
+
+
 // Lehaan
 // app.use('/addQA', addQuestionController);
 // app.use('/viewResult', viewResult);
