@@ -10,11 +10,14 @@ const certificateRouter = require('./modules/DCertificate/Certificate');
 const authController = require('./modules/auth/auth-controller');
 
 const addQuestionController = require("./routes/AddQuestions_Lehaan");
-const viewResult = require("./routes/ViewResult");
+const viewAttempt = require("./routes/ViewAttempt");
 const submitQuiz = require("./routes/SubmitQuiz");
 const getAttemptedQuizzes = require("./routes/GetQuizAttempt")
 const createQuiz = require("./routes/CreateQuiz");
-const createCandidate = require("./routes/CreateCandidate")
+const createCandidate = require("./routes/CreateCandidate");
+const submitAttempt = require("./routes/SubmitAttempt")
+const createAttempt = require("./routes/CreateAttempts");
+
 
 const app = express();
 
@@ -40,11 +43,13 @@ app.post(
 
 // Lehaan
 app.use('/addQA', addQuestionController);
-app.use('/viewResult', viewResult);
+app.use('/viewattempt', viewAttempt);
 app.use('/attempt', submitQuiz);
 app.use('/getattempts', getAttemptedQuizzes);
 app.use('/newquiz', createQuiz);
 app.use('/candidate', createCandidate);
+app.use('/newattempt', createAttempt);
+app.use('/submit', submitAttempt);
 
 app.use('/certificates', certificateRouter);
 

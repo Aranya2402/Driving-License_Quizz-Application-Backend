@@ -7,7 +7,8 @@ const candidateAnswers = new mongoose.Schema({
     },
     selectedAnswer_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Answer'
+        ref: 'Answer',
+        default: null
     }
 })
 
