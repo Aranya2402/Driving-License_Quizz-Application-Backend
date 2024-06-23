@@ -30,7 +30,7 @@ app.post('/create-checkout-session', createCheckoutSession);
 app.get('/session-status', getSessionStatus);
 
 
-// Lehaan
+// // Lehaan
 app.use('/addQA', addQuestionController);
 app.use('/viewResult', viewResult);
 app.use('/attempt', submitQuiz);
@@ -40,7 +40,8 @@ app.use('/candidate', createCandidate);
 
 app.use('/certificates', certificateRouter);
 
-//Banu
 
+//Banu
 module.exports = app; 
+
 

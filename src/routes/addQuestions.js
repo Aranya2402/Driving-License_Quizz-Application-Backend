@@ -1,17 +1,20 @@
-const express = require('express')
+const express = require('express');
 const router = express.Router()
-const path = require('path')
 
 
 const questionController = require('../controlers/QuestionController');
 
 
 router.route('/createQuestion')
-.post(questionController.createQuestion)
-
+.post(questionController.createQuestionss)
 
 router.route('/listOfQuestions')
 .get(questionController.getQuestions)
 
+router.route('/questionsForFilter')
+.get(questionController.questionsForFiltering)
+
+router.route('/addingquestions')
+.post(questionController.addquestion)
 
 module.exports = router;

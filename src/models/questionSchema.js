@@ -11,15 +11,14 @@ const questionSchema = new mongoose.Schema({
         ref:  'Answer'
     }],
     tests : {
-        type : Array,
-        //required : true
+        type : String,
+        required : true
     },
     type_of_exam :
     {
         type : Array,
-      // required : true
+       required : true
     }
-    
 });
 
 module.exports = mongoose.model('Question', questionSchema);
