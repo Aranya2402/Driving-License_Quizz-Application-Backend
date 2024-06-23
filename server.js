@@ -1,18 +1,16 @@
-//const app = require("./src/app");
-const express = require('express');
-const app = express();
+const dotenv = require("dotenv");
+dotenv.config();
 
+const app = require("./src/app");
 
 const mongoose = require("mongoose");
 const questionRouter = require('./src/routes/addQuestions')
 
-const port = 4000;
-
+const port = process.env.APP_PORT || 3000;
 app.use('/questionssss' , questionRouter)
 
-
-mongoose.connect('mongodb://127.0.0.1:27017/Questions')
-    .then(() => {
+mongoose.connect(process.env.MONGO_CONNECTION_URL)
+    .then(r => {
         console.log("MongoDB connected")
     })
     .catch(err => {
