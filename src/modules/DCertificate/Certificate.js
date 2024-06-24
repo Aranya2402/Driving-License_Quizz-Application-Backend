@@ -2,10 +2,9 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const PDFDocument = require('pdfkit');
-const nodemailer = require('nodemailer');
 const mongoose = require('mongoose');
-
 const router = express.Router();
+const mailService = require('./../../services/email-service');
 
 // MongoDB Schema and Model definition
 const certificateSchema = new mongoose.Schema({
@@ -47,28 +46,23 @@ const generateCertificate = (recipientName, courseName, completionDate, issuerNa
 // Email the generated certificate to the recipient
 const sendCertificateByEmail = async (recipientEmail, certificateFilePath) => {
   try {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'luxshan.thuraisingam@gmail.com', // Replace with your email
-        pass: 'oojo dozp dnkd ehnd', // Replace with your email password or use environment variables
+    const mail = await mailService.send({
+      from: {
+        email: 'bbalendrakumar@gmail.com',
+        name: 'Banujan Balendrakumar',
       },
+      to: {
+        email: recipientEmail,
+        name: 'Recipient Name', // Replace with actual recipient name if available
+      },
+      subject: 'Your Course Completion Certificate',
+      text: 'Please find your certificate attached.',
+      attachments: [{
+        filename: 'Certificate.pdf',
+        path: certificateFilePath,
+        contentType: 'application/pdf',
+      }],
     });
-
-    const mailOptions = {
-         
-      from: 'luxshan.thuraisingam@gmail.com', // Change this
-      to: 'vimalehaan2312@gmail.com',
-      subject: 'dei sambiranii',
-      text: 'ne oru paithiyam',
-      // attachments: [{
-      //   filename: 'Certificate.pdf',
-      //   path: certificateFilePath,
-      //   contentType: 'application/pdf',
-      // }],
-    };
-
-    await transporter.sendMail(mailOptions);
 
     return { success: true, message: 'Email sent successfully' };
   } catch (error) {

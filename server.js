@@ -1,6 +1,6 @@
 const app = require("./src/app");
 const mongoose = require("mongoose");
-const port = 3001;
+const port = 3002;
 
 mongoose.connect('mongodb://localhost:27017/onlinedrivingquiz', {
   useNewUrlParser: true,
