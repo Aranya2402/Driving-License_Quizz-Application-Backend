@@ -31,6 +31,18 @@ app.use(bodyParser.json());
 
 app.use( '/api/auth', authRouter );
 
+
+//aranya
+app.post('/user-activity/login', userActivity.login); 
+app.post('/user-activity/logout', userActivity.logout); 
+app.post('/user-activity/attempting', userActivity.attempting );
+
+app.get('/user-activity/check', (req, res) => {
+    res.send('User activity log module is running successfully!');
+});
+
+app.use('/certificates', certificateRouter); // Mount certificateRouter under /certificates path
+
 app.post('/create-checkout-session', createCheckoutSession);
 app.get('/session-status', getSessionStatus);
 
@@ -44,8 +56,6 @@ app.use('/newquiz', createQuiz);
 app.use('/candidate', createCandidate);
 app.use('/newattempt', createAttempt);
 app.use('/submit', submitAttempt);
-
-app.use('/certificates', certificateRouter);
 
 
 //Banu
