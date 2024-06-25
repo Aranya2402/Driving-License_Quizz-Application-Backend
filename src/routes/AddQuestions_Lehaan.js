@@ -10,8 +10,8 @@ router.post('/', async (req, res) => {
     // Create the question
     const question = await Question.create({
       question_text: req.body.question_text,
-      difficulty: req.body.difficulty,
       questionType: req.body.questionType,
+      difficulty: req.body.difficulty,
     });
 
     // Create the answers

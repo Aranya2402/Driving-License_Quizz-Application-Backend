@@ -12,9 +12,7 @@ router.route('/listOfQuestions')
 .get(questionController.getQuestions)
 
 router.route('/questionsForFilter')
-.get(questionController.questionsForFiltering)
+.get(questionController.getQuestions)
 
-router.route('/addingquestions')
-.post(questionController.addquestion)
 
 module.exports = router;
