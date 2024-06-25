@@ -17,6 +17,8 @@ const createQuiz = require("./routes/CreateQuiz");
 const submitAttempt = require("./routes/SubmitAttempt")
 const createAttempt = require("./routes/CreateAttempts");
 
+const questionRouter = require('./routes/addQuestions')
+
 const createCandidate = require("./routes/CreateCandidate")
 const authRouter = require("./routes/auth");
 const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/stripe-integration');
@@ -49,4 +51,7 @@ app.use('/certificates', certificateRouter);
 //Banu
 module.exports = app; 
 
+
+//Fathhy
+app.use('/questions' , questionRouter)
 

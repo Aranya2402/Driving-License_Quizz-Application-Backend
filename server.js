@@ -4,10 +4,8 @@ dotenv.config();
 const app = require("./src/app");
 
 const mongoose = require("mongoose");
-const questionRouter = require('./src/routes/addQuestions')
 
 const port = process.env.APP_PORT || 3000;
-app.use('/questionssss' , questionRouter)
 
 mongoose.connect(process.env.MONGO_CONNECTION_URL)
     .then(r => {

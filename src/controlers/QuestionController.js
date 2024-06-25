@@ -1,18 +1,13 @@
-const Question = require('../models/questionSchema');
-const Answer = require('../models/answerSchema');
-
-const TestQuestion = require('../models/TestingSchema')
+const Question = require('../models/Question');
+const Answer = require('../models/Answer');
 
 
-const getQuestions = async (req, res) => 
-{
-    try 
-    {
+const getQuestions = async (req, res) => {
+    try {
         const questions = await Question.find().populate('answers');
         res.status(200).json(questions);
-    } 
-    catch (error)
-    {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });
     }
@@ -20,26 +15,30 @@ const getQuestions = async (req, res) =>
 
 const createQuestionss = async (req, res) => {
     try {
-        
+
         console.log("Request Body:", req.body);
 
         if (!req.body.answers) {
             throw new Error("Answers array is missing in the request body");
         }
 
-        const newAnswers = await Promise.all(req.body.answers.map(answerData =>  new Answer({
-            answer_text: answerData.answer_text,
-            is_correct : answerData.is_correct
-        }).save()));
-
         const newQuestion = new Question({
             question_text: req.body.question_text,
-            answers: newAnswers.map(answers => answers._id), // Corrected from answer to answers
-            tests: req.body.tests, // Assuming tests is meant to be a string
-            type_of_exam: req.body.type_of_exam // Assuming type_of_exam is meant to be an array
+            difficulty: req.body.difficulty,
+            questionType: req.body.questionType,
+            imageUrl: req.body.imageUrl
         });
-                                                                
         const savedQuestion = await newQuestion.save();
+
+        const newAnswers = await Promise.all(req.body.answers.map(answerData => new Answer({
+            answer_text: answerData.answer_text,
+            isCorrect: answerData.isCorrect,
+            question_id: newQuestion._id,
+        }).save()));
+
+        const answerIds = newAnswers.map(answer => answer._id);
+        await Question.findByIdAndUpdate(newQuestion._id, { answers: answerIds });
+
         res.status(201).json(savedQuestion);
     } catch (error) {
         console.error(error);
@@ -47,35 +46,5 @@ const createQuestionss = async (req, res) => {
     }
 }
 
-const questionsForFiltering = async (req, res) => 
-{
-    try 
-    {
-        const questions = await Question.find().populate('answers');
-        res.status(200).json(questions);
-    } 
-    catch (error)
-    {
-        console.error(error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-}
 
-const addquestion = async (req, res) => {
-    try {
-        const newQuestion = new TestQuestion({
-          question_text: req.body.question_text,
-          answers: req.body.answers
-        });
-    
-        const savedQuestion = await newQuestion.save();
-        res.status(201).json(savedQuestion); // Send created question back
-    
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal server error' });
-      }
-    }
-
-
-module.exports = { createQuestionss, getQuestions ,questionsForFiltering, addquestion};
+module.exports = { createQuestionss, getQuestions };
