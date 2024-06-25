@@ -41,7 +41,7 @@ app.get('/user-activity/check', (req, res) => {
     res.send('User activity log module is running successfully!');
 });
 
-app.use('/certificates', certificateRouter); // Mount certificateRouter under /certificates path
+app.use('/certificates', certificateRouter); 
 
 app.post('/create-checkout-session', createCheckoutSession);
 app.get('/session-status', getSessionStatus);

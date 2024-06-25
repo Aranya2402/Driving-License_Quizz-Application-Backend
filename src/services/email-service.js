@@ -22,10 +22,13 @@ async function send(params) {
                         }
                     ],
                     Subject: params.subject,
-                    HTMLPart: params.body
+                    HTMLPart: params.body || '<h3>Abcd</h3>', // Adding HTMLPart
+                    TextPart: params.text || 'Default text content' // Optionally adding TextPart
+
                 }
             ]
         });
+        
 }
 
 module.exports = {
