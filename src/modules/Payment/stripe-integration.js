@@ -15,7 +15,7 @@ const createCheckoutSession = async (req, res) => {
         },
       ],
       mode: 'payment',
-      return_url: `${YOUR_DOMAIN}/return?session_id={CHECKOUT_SESSION_ID}`,
+      return_url: `${YOUR_DOMAIN}/return?session_id={CHECKOUT_SESSION_ID}`
     });
 
     res.send({ clientSecret: session.client_secret, id: session.id });
