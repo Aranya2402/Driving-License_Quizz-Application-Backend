@@ -10,15 +10,22 @@ const certificateRouter = require('./modules/DCertificate/Certificate');
 const authController = require('./modules/auth/auth-controller'); //check the route
 
 const addQuestionController = require("./routes/AddQuestions_Lehaan");
-const viewResult = require("./routes/ViewResult");
+const viewAttempt = require("./routes/ViewAttempt");
 const submitQuiz = require("./routes/SubmitQuiz");
 const getAttemptedQuizzes = require("./routes/GetQuizAttempt")
 const createQuiz = require("./routes/CreateQuiz");
 const createCandidate = require("./routes/CreateCandidate")
 const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/stripe-integration');
 const stripeWebHook = require('./modules/Payment/webhook');
+const submitAttempt = require("./routes/SubmitAttempt")
+const createAttempt = require("./routes/CreateAttempts");
 
 
+const questionRouter = require('./routes/addQuestions')
+
+const createCandidate = require("./routes/CreateCandidate")
+const authRouter = require("./routes/auth");
+const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/stripe-integration');
 
 const app = express();
 
@@ -28,37 +35,43 @@ app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3001' })); //accepting request from cross-origin
 app.use(bodyParser.json());
 
-app.post(
-    '/auth/sign-in', // path
-    body('email').isEmail(), // f1
-    authController.signInUser // f2
-);
+app.use( '/api/auth', authRouter );
+
+
+//aranya
+app.post('/user-activity/login', userActivity.login); 
+app.post('/user-activity/logout', userActivity.logout); 
+app.post('/user-activity/attempting', userActivity.attempting );
+
+// Routes
+// app.use('/api/exam-dashboard/exams', ExamDash);
+
+app.get('/user-activity/check', (req, res) => {
+    res.send('User activity log module is running successfully!');
+});
+
+
+app.use('/certificates', certificateRouter); // Mount certificateRouter under /certificates path
 
 app.post('/create-checkout-session', createCheckoutSession);
 app.get('/session-status', getSessionStatus);
 
 
-
-// Routes
-// app.use('/api/exam-dashboard/exams', ExamDash);
-
-// app.route('/user-activity')
-// .post(userActivity.login)
-// .post( userActivity.logout)
-// .get( userActivity.getAttemptedExams);
-
-
-// Lehaan
+// // Lehaan
 app.use('/addQA', addQuestionController);
-app.use('/viewResult', viewResult);
+app.use('/viewattempt', viewAttempt);
 app.use('/attempt', submitQuiz);
 app.use('/getattempts', getAttemptedQuizzes);
 app.use('/newquiz', createQuiz);
 app.use('/candidate', createCandidate);
+app.use('/newattempt', createAttempt);
+app.use('/submit', submitAttempt);
 
-app.use('/certificates', certificateRouter);
 
 //Banu
-
 module.exports = app; 
+
+
+//Fathhy
+app.use('/questions' , questionRouter)
 
