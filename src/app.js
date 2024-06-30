@@ -16,10 +16,13 @@ const getAttemptedQuizzes = require("./routes/GetQuizAttempt")
 const createQuiz = require("./routes/CreateQuiz");
 const createCandidate = require("./routes/CreateCandidate")
 const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/stripe-integration');
+const stripeWebHook = require('./modules/Payment/webhook');
 
 
 
 const app = express();
+
+app.use('/webhook', stripeWebHook);
 
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3001' })); //accepting request from cross-origin
@@ -33,6 +36,7 @@ app.post(
 
 app.post('/create-checkout-session', createCheckoutSession);
 app.get('/session-status', getSessionStatus);
+
 
 
 // Routes
