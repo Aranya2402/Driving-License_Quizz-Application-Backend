@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const UserRole = {
-    User: 'user'
+    User: 'user',
+    Admin: 'admin',
 }
 
 const AuthType = {
@@ -37,7 +38,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     isEmailVerified: {
-        type: String,
+        type: Boolean,
         required: true,
         default: false
     },

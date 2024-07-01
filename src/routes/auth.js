@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('./../modules/auth/auth-controller');
 const { body } = require('express-validator');
+const authMiddleware = require('../middlewares/auth.middleware');
 
 
 router.post('/create',
@@ -34,8 +35,8 @@ router.post('/password',
         .isEmail(),
     authController.passwordLogin );
 
+router.post('/token/exchange', authController.exchangeToken );
 
-    
 router.post('/reset-password',
     body('email')
         .trim()
@@ -43,13 +44,10 @@ router.post('/reset-password',
         .isEmail(),
     authController.resetPassword );
 
-router.post('/token/exchange', authController.exchangeToken );
-
 router.post('/new-password',
     body('password')
         .trim()
         .notEmpty()
-        
         .isStrongPassword({
             minLength: 8,
             minLowercase: 1,

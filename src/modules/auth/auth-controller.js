@@ -130,7 +130,7 @@ async function resetPassword( req, res ) {
             name: user.fullName(),
         },
         subject: 'Password Reset',
-        body: `<a href='http://localhost:3000/reset?token=${user.resetPasswordToken}'>Click here to reset password</a>`
+        body: `<a href='${APP_URL}/reset-password?token=${user.resetPasswordToken}'>Click here to reset password</a>`
     });
 
     return res.send( responseFormat.SuccessResponse('OK'));

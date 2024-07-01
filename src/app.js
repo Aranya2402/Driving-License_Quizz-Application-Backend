@@ -25,14 +25,14 @@ const createAttempt = require("./routes/CreateAttempts");
 
 const questionRouter = require('./routes/addQuestions')
 
-const createCandidate = require("./routes/CreateCandidate")
+
 const authRouter = require("./routes/auth");
-const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/stripe-integration');
+
 
 const app = express();
 
 
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3001' })); //accepting request from cross-origin
 
 app.use('/webhook', stripeWebHook);
 
