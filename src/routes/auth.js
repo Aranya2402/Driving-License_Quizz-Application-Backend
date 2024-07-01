@@ -34,8 +34,8 @@ router.post('/password',
         .isEmail(),
     authController.passwordLogin );
 
-router.post('/token/exchange', authController.exchangeToken );
 
+    
 router.post('/reset-password',
     body('email')
         .trim()
@@ -43,10 +43,13 @@ router.post('/reset-password',
         .isEmail(),
     authController.resetPassword );
 
+router.post('/token/exchange', authController.exchangeToken );
+
 router.post('/new-password',
     body('password')
         .trim()
         .notEmpty()
+        
         .isStrongPassword({
             minLength: 8,
             minLowercase: 1,

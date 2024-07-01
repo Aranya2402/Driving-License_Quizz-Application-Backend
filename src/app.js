@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { body } = require('express-validator');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const ExamDash = require('./modules/ExamDashboard/ExamDash');
 const userActivity = require('./modules/UserActivityLog/UserActivity'); 
@@ -20,8 +22,9 @@ const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/s
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:3001' })); //accepting request from cross-origin
+
 app.use(bodyParser.json());
 
 app.use( '/api/auth', authRouter );
