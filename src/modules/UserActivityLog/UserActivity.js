@@ -1,27 +1,23 @@
-// UserActivityLog/userActivity.js
+const ActivityLog = require('../../models/ActivityLog');
+// const jwt = require('jsonwebtoken');
 
-const mongoose = require('mongoose');
-const ActivityLog = require('../../models/ActivityLog'); 
-
+const getUserId = (req) => {
+  // const token = req.headers.authorization;
+  // Assume some logic to decode the token and extract the user ID
+  // const decodedToken = jwt.verify(token, 'your_jwt_secret');
+  return '1002';
+};
 
 // Route for user login
 exports.login = (req, res) => {
-  
-  const getUserId = (req) => {
-    // Implement this function to extract user ID from the request( request type paathu)ithu paakkanum
-  };
-  
   const userId = getUserId(req);
-  
-  
+
   const activityLog = new ActivityLog({
     userId,
     action: 'User logged in',
-    type: 'login',
-    loginTime: new Date().toLocaleTimeString(),
+    type: 'online',
   });
-  
-  // Save the activity log entry
+
   activityLog.save()
     .then(() => {
       res.send('User logged in successfully');
@@ -32,24 +28,17 @@ exports.login = (req, res) => {
     });
 };
 
-
 // Route for user logout
-
 exports.logout = (req, res) => {
-  
-  const getUserId = (req) => {
-    // Implement this function to extract user ID from the request same goes here also request type 
-  };
-  
   const userId = getUserId(req);
-  // Find the most recent login activity update pandrathukku
-  
-  ActivityLog.findOne({ userId, type: 'login' }).sort({ timestamp: -1 })
+
+  ActivityLog.findOne({ userId, type: 'online' }).sort({ timestamp: -1 })
     .then((loginActivity) => {
       if (loginActivity) {
-        // Update the login activity with logout time
+        loginActivity.action = 'User logged out';
+        loginActivity.type = 'offline';
+        loginActivity.timestamp = new Date(); // Update timestamp for logout action
         
-        loginActivity.logoutTime = new Date().toLocaleTimeString();
         loginActivity.save()
           .then(() => {
             res.send('User logged out successfully');
@@ -59,46 +48,37 @@ exports.logout = (req, res) => {
             res.status(500).send('Error logging user out: ' + error.message);
           });
       } else {
-        res.status(404).send('No login activity found for the user');
+        res.status(404).send('No online activity found for the user');
       }
     })
     .catch((error) => {
-      console.error('Error finding login activity:', error);
-      res.status(500).send('Error finding login activity: ' + error.message); 
+      console.error('Error finding online activity:', error);
+      res.status(500).send('Error finding online activity: ' + error.message);
     });
 };
-  
 
+// Route for user attempting action
+exports.attempting = (req, res) => {
+  const userId = getUserId(req);
 
+  const activityLog = new ActivityLog({
+    userId,
+    action: 'User attempting',
+    type: 'attempting',
+  });
 
+  activityLog.save()
+    .then(() => {
+      res.send('User attempting recorded successfully');
+    })
+    .catch((error) => {
+      console.error('Error recording user attempting:', error);
+      res.status(500).send('Error recording user attempting: ' + error.message);
+    });
+};
 
-  // Route for retrieving exams attempted by a user
-exports.getAttemptedExams = (req, res) => {
-    
-    const getUserId = (req) => {
-      // Implement this function to extract user ID from the request ,store pannathu request body laya,request parameters ah or, request headers ah
-    };
-    
-    const userId = getUserId(req);
-    
-    // Find all activity log entries 
-    ActivityLog.find({ userId, type: 'examAttempt' })
-      .populate('examId') // Populate the 'examId' field with exam details
-      .then((attemptedExams) => {
-        res.json(attemptedExams);
-      })
-      .catch((error) => {
-        console.error('Error retrieving attempted exams:', error);
-        res.status(500).send('Error retrieving attempted exams: ' + error.message);
-      });
-  };
-  
-  
-  
-  module.exports = {
-    login: exports.login,
-    logout: exports.logout,
-    startExam: exports.startExam,
-    getAttemptedExams: exports.getAttemptedExams,
-    ActivityLog,
-  };
+module.exports = {
+  login: exports.login,
+  logout: exports.logout,
+  attempting: exports.attempting,
+};
