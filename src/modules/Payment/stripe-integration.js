@@ -1,4 +1,6 @@
-const stripe = require('stripe')('sk_test_51P0HbhKqUCwilBKSTuLI1ZJmlddnjBoGblIIQ4EYxM4RokAod2Nydm11i5di3d6VgfrPLx32rZ4wwhVUsIehRiSy00034cU2NL');
+const dotenv = require("dotenv");
+dotenv.config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const YOUR_DOMAIN = 'http://localhost:3000';
 
 

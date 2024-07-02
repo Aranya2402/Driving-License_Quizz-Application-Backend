@@ -1,5 +1,7 @@
 const express = require('express');
-const stripe = require('stripe')('sk_test_51P0HbhKqUCwilBKSTuLI1ZJmlddnjBoGblIIQ4EYxM4RokAod2Nydm11i5di3d6VgfrPLx32rZ4wwhVUsIehRiSy00034cU2NL');
+const dotenv = require("dotenv");
+dotenv.config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const bodyParser = require('body-parser');
 const Transaction = require('../../models/Transaction');
 
@@ -22,7 +24,7 @@ router.post('/', bodyParser.raw({ type: 'application/json' }), async (req, res) 
     const logEntry = new Transaction({
       sessionId: session.id,
       customerId: session.customer || (session.customer_details && session.customer_details.email),
-      amountTotal: session.amount_total || (session.amount && session.amount_received),
+      amountTotal: session.amount_total/100 || (session.amount/100 && session.amount_received/100),
       currency: session.currency,
       paymentStatus: status,
       createdAt: new Date(session.created * 1000),

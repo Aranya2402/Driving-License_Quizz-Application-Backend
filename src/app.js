@@ -17,15 +17,13 @@ const createQuiz = require("./routes/CreateQuiz");
 const createCandidate = require("./routes/CreateCandidate")
 const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/stripe-integration');
 const stripeWebHook = require('./modules/Payment/webhook');
+const transactionLog = require('./modules/TransactionLog/transaction-log')
 const submitAttempt = require("./routes/SubmitAttempt")
 const createAttempt = require("./routes/CreateAttempts");
 
 
 const questionRouter = require('./routes/addQuestions')
-
-const createCandidate = require("./routes/CreateCandidate")
 const authRouter = require("./routes/auth");
-const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/stripe-integration');
 
 const app = express();
 
@@ -55,6 +53,7 @@ app.use('/certificates', certificateRouter); // Mount certificateRouter under /c
 
 app.post('/create-checkout-session', createCheckoutSession);
 app.get('/session-status', getSessionStatus);
+app.use('/transaction', transactionLog);
 
 
 // // Lehaan
