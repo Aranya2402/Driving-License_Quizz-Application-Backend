@@ -49,10 +49,7 @@ const generateCertificate = (recipientName, courseName, completionDate, issuerNa
   doc.moveDown();
   doc.fontSize(14).text('Signature', { align: 'right' });
 
-  // Add seal and signature images (make sure the paths are correct)
-  // doc.image('../images/seal.webp', 250, doc.y, { fit: [100, 100], align: 'center' });
-  // doc.image('../images/signature.png', 450, doc.y, { fit: [100, 50], align: 'center' });
-
+  
 
 
   doc.pipe(fs.createWriteStream(filePath));
@@ -71,7 +68,7 @@ const sendCertificateByEmail = async (recipientEmail, certificateFilePath) => {
       },
       to: {
         email: 'aranya24arii@gmail.com',
-        name: `aranya`, 
+        
       },
       subject: 'Your Course Completion Certificate',
       body: '<h1>Congratulations!</h1><p>You have completed the course.</p>', // HTML content
