@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { body } = require('express-validator');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const ExamDash = require('./modules/ExamDashboard/ExamDash');
 const userActivity = require('./modules/UserActivityLog/UserActivity'); 
@@ -23,14 +25,20 @@ const createAttempt = require("./routes/CreateAttempts");
 
 
 const questionRouter = require('./routes/addQuestions')
+
+
 const authRouter = require("./routes/auth");
 
+
 const app = express();
+
+
+app.use(cors({ origin: 'http://localhost:3001' })); //accepting request from cross-origin
 
 app.use('/webhook', stripeWebHook);
 
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:3001' })); //accepting request from cross-origin
+
 app.use(bodyParser.json());
 
 app.use( '/api/auth', authRouter );
