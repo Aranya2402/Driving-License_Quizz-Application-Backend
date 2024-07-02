@@ -1,5 +1,6 @@
-const stripe = require('stripe')('sk_test_51P0HbhKqUCwilBKSTuLI1ZJmlddnjBoGblIIQ4EYxM4RokAod2Nydm11i5di3d6VgfrPLx32rZ4wwhVUsIehRiSy00034cU2NL');
-const YOUR_DOMAIN = 'http://localhost:3000';
+const dotenv = require("dotenv");
+dotenv.config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
 const createCheckoutSession = async (req, res) => {
@@ -15,7 +16,7 @@ const createCheckoutSession = async (req, res) => {
         },
       ],
       mode: 'payment',
-      return_url: `${YOUR_DOMAIN}/return?session_id={CHECKOUT_SESSION_ID}`
+      return_url: `http://localhost:3001/return?session_id={CHECKOUT_SESSION_ID}`
     });
 
     res.send({ clientSecret: session.client_secret, id: session.id });
