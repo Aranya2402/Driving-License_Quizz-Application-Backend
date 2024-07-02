@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+
 const Transaction = require('../../models/Transaction');
 
 const router = express.Router();
@@ -20,19 +22,21 @@ router.post('/', bodyParser.raw({ type: 'application/json' }), async (req, res) 
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
+  
   const logTransaction = async (session, status) => {
-    const logEntry = new Transaction({
-      sessionId: session.id,
-      customerId: session.customer || (session.customer_details && session.customer_details.email),
-      amountTotal: session.amount_total/100 || (session.amount/100 && session.amount_received/100),
-      currency: session.currency,
-      paymentStatus: status,
-      createdAt: new Date(session.created * 1000),
-    });
-    
-    // console.log(session.data);
-    
     try {
+      const saltRounds = 10;
+      const hashedSessionId = await bcrypt.hash(session.id, saltRounds);
+
+      const logEntry = new Transaction({
+        sessionId: hashedSessionId,
+        customerId: session.customer || (session.customer_details && session.customer_details.email),
+        amountTotal: session.amount_total || (session.amount && session.amount_received),
+        currency: session.currency,
+        paymentStatus: status,
+        createdAt: new Date(session.created * 1000),
+      });
+
       await logEntry.save();
       console.log('Transaction logged:', logEntry);
     } catch (error) {
