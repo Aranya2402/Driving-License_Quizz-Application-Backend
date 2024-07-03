@@ -9,7 +9,7 @@ const certificateRouter = require('./modules/DCertificate/Certificate');
 
 const authController = require('./modules/auth/auth-controller'); //check the route
 
-const addQuestionController = require("./routes/AddQuestions_Lehaan");
+const addQuestionController = require("./routes/addQuestions");
 const viewAttempt = require("./routes/ViewAttempt");
 const submitQuiz = require("./routes/SubmitQuiz");
 const getAttemptedQuizzes = require("./routes/GetQuizAttempt")
@@ -18,6 +18,8 @@ const submitAttempt = require("./routes/SubmitAttempt")
 const createAttempt = require("./routes/CreateAttempts");
 
 const questionRouter = require('./routes/addQuestions')
+
+const quizController = require('./routes/CreateQuiz')
 
 const createCandidate = require("./routes/CreateCandidate")
 const authRouter = require("./routes/auth");
@@ -48,11 +50,11 @@ app.get('/session-status', getSessionStatus);
 
 
 // // Lehaan
-app.use('/addQA', addQuestionController);
+
 app.use('/viewattempt', viewAttempt);
 app.use('/attempt', submitQuiz);
 app.use('/getattempts', getAttemptedQuizzes);
-app.use('/newquiz', createQuiz);
+
 app.use('/candidate', createCandidate);
 app.use('/newattempt', createAttempt);
 app.use('/submit', submitAttempt);
@@ -65,3 +67,4 @@ module.exports = app;
 //Fathhy
 app.use('/questions' , questionRouter)
 
+app.use('/quiz', quizController)

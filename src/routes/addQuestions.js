@@ -11,8 +11,8 @@ router.route('/createQuestion')
 router.route('/listOfQuestions')
 .get(questionController.getQuestions)
 
-router.route('/questionsForFilter')
-.get(questionController.getQuestions)
+router.route('/deleteQuestion/:id')
+.delete(questionController.deleteQuestion)
 
 
 module.exports = router;

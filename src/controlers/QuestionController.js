@@ -1,7 +1,6 @@
 const Question = require('../models/Question');
 const Answer = require('../models/Answer');
 
-
 const getQuestions = async (req, res) => {
     try {
         const questions = await Question.find().populate('answers');
@@ -47,4 +46,24 @@ const createQuestionss = async (req, res) => {
 }
 
 
-module.exports = { createQuestionss, getQuestions };
+const deleteQuestion = async (req, res) => {
+    try {
+        const { id } = req.params; // Correctly extract the id
+        const deletedQuestion = await Question.findByIdAndDelete(id);
+
+        if (!deletedQuestion) {
+            return res.status(404).json({ error: 'Question not found' });
+        }
+
+        // Optionally delete related answers
+        await Answer.deleteMany({ question_id: id });
+
+        res.status(200).json({ message: 'Question deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
+module.exports = { createQuestionss, getQuestions, deleteQuestion};
