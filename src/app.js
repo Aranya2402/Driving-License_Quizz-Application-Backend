@@ -21,6 +21,7 @@ const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/s
 const stripeWebHook = require('./modules/Payment/webhook');
 const submitAttempt = require("./routes/SubmitAttempt")
 const createAttempt = require("./routes/CreateAttempts");
+const viewQuizzes = require("./routes/ViewQuizzes")
 
 
 const questionRouter = require('./routes/addQuestions')
@@ -71,6 +72,7 @@ app.use('/newquiz', createQuiz);
 app.use('/candidate', createCandidate);
 app.use('/newattempt', createAttempt);
 app.use('/submit', submitAttempt);
+app.use('/allquizzes', viewQuizzes)
 
 
 //Banu
