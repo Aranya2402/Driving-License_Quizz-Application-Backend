@@ -21,7 +21,7 @@ const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/s
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:3001' })); //accepting request from cross-origin
+app.use(cors({ origin: '*' })); //accepting request from cross-origin
 app.use(bodyParser.json());
 
 app.use( '/api/auth', authRouter );

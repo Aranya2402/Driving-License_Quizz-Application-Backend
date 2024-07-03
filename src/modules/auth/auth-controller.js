@@ -1,12 +1,11 @@
 const { validationResult } = require('express-validator');
 const responseFormat = require('./../../utils/response-formatter');
 const userService = require('./../../services/user-service');
-const { validateUserPassword, generateTokenPair } = require('../../services/auth-service');
+const { validateUserPassword, generateTokenPair, verifyGoogleToken, verifyFacebookToken } = require('../../services/auth-service');
 const mailService = require('./../../services/email-service');
 
 
 const APP_URL = process.env.APP_URL;
-const FB_VERIFY_ENDPOINT = "https://graph.facebook.com/v20.0/me";
 
 async function passwordLogin( req, res ) {
 
@@ -53,36 +52,37 @@ async function signUpUser( req, res ) {
 
     const { email, password, firstName, lastName } = req.body;
 
-    const user = await userService.createUserWithPassword( firstName, lastName, email, password );
+    let user = await userService.getUserByEmail(email);
+
+    if ( user ) {
+        return res.status(400).send( responseFormat.ErrorResponse('user_already_exist'));
+    }
+
+    user = await userService.createUserWithPassword( firstName, lastName, email, password );
     return res.send( responseFormat.SuccessResponse(user));
 }
 
 async function exchangeToken( req, res ) {
 
     const { socialAccessToken, platform } = req.body;
+    let data;
 
-    const fields = encodeURIComponent([
-        'first_name',
-        'last_name',
-        'email',
-        'id'
-    ].join(','));
-
-    const response = await fetch(`${FB_VERIFY_ENDPOINT}/?fields=${fields}&access_token=${socialAccessToken}`)
-        .then( res => res.json());
-
-    if ( response.error ) {
-        return res.status(403).send( responseFormat.ErrorResponse('invalid_social_token'));
+    if ( platform === 'google' ) {
+        data = await verifyGoogleToken(socialAccessToken);
+    } else if ( platform === 'facebook' ) {
+        data = await verifyFacebookToken(socialAccessToken);
+    } else {
+        return res.status(400).send( responseFormat.ErrorResponse('invalid_social_platform'));
     }
 
-    let user = await userService.getUserByEmail( response.email );
-
+    let user = await userService.getUserByEmail( data.email );
+    
     if ( !user ) {
         user = await userService.createUserWithSocialAccount(
-            response.first_name,
-            response.last_name,
-            response.email,
-            platform,
+            data.firstName,
+            data.lastName,
+            data.email,
+            data.platform,
         )
     }
 
