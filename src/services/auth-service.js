@@ -25,19 +25,12 @@ async function validateUserPassword( plainTextPassword, user ) {
 }
 
 async function generateTokenPair( user ) {
-
-    const accessTokenOptions = {
-        algorithm: 'HS256',
-        issuer: AUTH_TOKEN_ISSUER,
-        subject: 'signin',
-        expiresIn: '1h'
-    }
     const accessTokenPayload = {
         userId: user.getId(),
         email: user.email,
         userRole: user.role
     }
-    const accessToken = await signAuthToken( accessTokenPayload, accessTokenOptions );
+    const accessToken = await signAuthToken( accessTokenPayload, ACCESS_TOKEN_OPTIONS );
     
     const refreshTokenOptions = {
         algorithm: 'HS256',

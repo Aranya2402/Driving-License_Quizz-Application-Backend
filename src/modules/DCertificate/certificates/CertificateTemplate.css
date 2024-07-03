@@ -1,0 +1,91 @@
+.certificate-template {
+  width: 900px;
+  padding: 20px;
+  border: 10px solid #6070D4; 
+  text-align: center;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+  border-radius: 10px;
+  background: #f0f2f7; 
+  font-family: 'Arial', sans-serif;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.certificate-header {
+  background: #323A6E; 
+  color: #f0f2f7; 
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 30px;
+}
+
+.certificate-header h2 {
+  font-size: 24px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.certificate-body {
+  flex-grow: 1;
+}
+
+.certificate-body p {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #323A6E; 
+}
+
+.certificate-body h1 {
+  font-size: 24px;
+  margin: 20px 0;
+  color: #09BCE0; 
+}
+.certificate-body h2 {
+  font-size: 32px;
+  margin: 20px 0;
+  font-weight: bold;
+  text-shadow: 0 0 5px #6070D4, 0 0 3px #323A6E;
+}
+.certificate-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f0f2f7; 
+  color: #323A6E; 
+}
+
+.left-section,
+.center-section,
+.right-section {
+  flex: 1; /* Equal width distribution */
+  text-align: center;
+}
+
+
+
+.signature img {
+  width: 200px; /* Adjust size of signature and seal */
+  height: auto;
+}
+.seal img {
+  width: 250px;
+  padding-left: 20px ;
+}
+.signature p, .date p {
+  margin: 5px 0;
+}
+
+.Bar {
+  background: #323A6E; 
+  color: #f0f2f7; 
+  padding: 10px;
+  border-radius: 0 0 10px 10px;
+  text-align: center; 
+}
+
+.Bar p {
+  margin: 0;
+}

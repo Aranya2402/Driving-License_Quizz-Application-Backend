@@ -130,7 +130,7 @@ async function resetPassword( req, res ) {
             name: user.fullName(),
         },
         subject: 'Password Reset',
-        body: `<a href='http://localhost:3000/reset?token=${user.resetPasswordToken}'>Click here to reset password</a>`
+        body: `<a href='${APP_URL}/reset-password?token=${user.resetPasswordToken}'>Click here to reset password</a>`
     });
 
     return res.send( responseFormat.SuccessResponse('OK'));
@@ -157,12 +157,35 @@ async function setNewPassword( req, res ) {
     return res.send( responseFormat.SuccessResponse('Password Updated'));
 }
 
+
+async function updateProfile( req, res ) {
+
+    const result = validationResult(req);
+
+    if ( !result.isEmpty()) {
+        return res.status(400).send( responseFormat.ErrorResponse( result.errors ));
+    }
+
+    const { firstName,lastName } = req.body;
+
+    const user = await userService.getUserById( req.user.id );
+    
+    user.firstName = firstName;
+    user.lastName = lastName;
+
+    await user.save();
+
+    return res.send( responseFormat.SuccessResponse('Profile Updated'));
+}
+
+
 module.exports = {
     passwordLogin,
     signUpUser,
     exchangeToken,
     resetPassword,
-    setNewPassword
+    setNewPassword,
+    updateProfile
 }
     
 

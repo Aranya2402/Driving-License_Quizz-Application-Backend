@@ -7,7 +7,7 @@ dotenv.config();
 
 const ExamDash = require('./modules/ExamDashboard/ExamDash');
 const userActivity = require('./modules/UserActivityLog/UserActivity'); 
-const certificateRouter = require('./modules/DCertificate/Certificate');
+const certificateRouter = require('./modules/DCertificate/certi');
 
 const authController = require('./modules/auth/auth-controller'); //check the route
 
@@ -19,22 +19,25 @@ const createQuiz = require("./routes/CreateQuiz");
 const createCandidate = require("./routes/CreateCandidate")
 const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/stripe-integration');
 const stripeWebHook = require('./modules/Payment/webhook');
+const transactionLog = require('./modules/TransactionLog/transaction-log')
 const submitAttempt = require("./routes/SubmitAttempt")
 const createAttempt = require("./routes/CreateAttempts");
 
 
 const questionRouter = require('./routes/addQuestions')
 
-const createCandidate = require("./routes/CreateCandidate")
+
 const authRouter = require("./routes/auth");
-const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/stripe-integration');
+
 
 const app = express();
+
+
+app.use(cors({ origin: 'http://localhost:3000' })); //accepting request from cross-origin
 
 app.use('/webhook', stripeWebHook);
 
 app.use(express.json());
-app.use(cors({ origin: '*' })); //accepting request from cross-origin
 
 app.use(bodyParser.json());
 
@@ -54,10 +57,13 @@ app.get('/user-activity/check', (req, res) => {
 });
 
 
-app.use('/certificates', certificateRouter); // Mount certificateRouter under /certificates path
+app.use('/certificates', certificateRouter); 
+
+
 
 app.post('/create-checkout-session', createCheckoutSession);
 app.get('/session-status', getSessionStatus);
+app.use('/transaction', transactionLog);
 
 
 // // Lehaan
@@ -78,3 +84,13 @@ module.exports = app;
 //Fathhy
 app.use('/questions' , questionRouter)
 
+// Example middleware function
+const myMiddleware = (req, res, next) => {
+    // Middleware logic here
+    console.log('Middleware executed');
+    next(); // Call next to pass control to the next middleware or route handler
+  };
+  
+  // Using middleware in Express
+  app.use(myMiddleware);
+  
