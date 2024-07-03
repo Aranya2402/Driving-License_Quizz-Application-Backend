@@ -7,7 +7,7 @@ dotenv.config();
 
 const ExamDash = require('./modules/ExamDashboard/ExamDash');
 const userActivity = require('./modules/UserActivityLog/UserActivity'); 
-const certificateRouter = require('./modules/DCertificate/Certificate');
+const certificateRouter = require('./modules/DCertificate/certi');
 
 const authController = require('./modules/auth/auth-controller'); //check the route
 
@@ -57,7 +57,9 @@ app.get('/user-activity/check', (req, res) => {
 });
 
 
-app.use('/certificates', certificateRouter); // Mount certificateRouter under /certificates path
+app.use('/certificates', certificateRouter); 
+
+
 
 app.post('/create-checkout-session', createCheckoutSession);
 app.get('/session-status', getSessionStatus);
@@ -82,3 +84,13 @@ module.exports = app;
 //Fathhy
 app.use('/questions' , questionRouter)
 
+// Example middleware function
+const myMiddleware = (req, res, next) => {
+    // Middleware logic here
+    console.log('Middleware executed');
+    next(); // Call next to pass control to the next middleware or route handler
+  };
+  
+  // Using middleware in Express
+  app.use(myMiddleware);
+  
