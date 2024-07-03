@@ -4,6 +4,11 @@ const randomstring = require("randomstring");
 
 const RESET_PASSWORD_VALIDITY_PERIOD = 60 * 60 * 1000; // 1 hour
 
+async function getUserById( id ) {
+
+    return User.find({ _id: id }).exec();
+}
+
 async function getUserByEmail( email ) {
     
     return User.findOne({ email }).exec();
