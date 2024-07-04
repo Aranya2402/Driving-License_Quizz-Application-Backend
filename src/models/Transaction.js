@@ -25,6 +25,12 @@ const transactionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  userDetails: {
+    id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    // Add other user details as needed
+  }
 });
 
 module.exports = mongoose.model('Transaction', transactionSchema);

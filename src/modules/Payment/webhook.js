@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 
 const Transaction = require('../../models/Transaction');
+const {User} = require('../../models/User');
 
 const router = express.Router();
 
@@ -28,6 +29,16 @@ router.post('/', bodyParser.raw({ type: 'application/json' }), async (req, res) 
       const saltRounds = 10;
       const hashedSessionId = await bcrypt.hash(session.id, saltRounds);
 
+      const email = session.customer_details ? session.customer_details.email : null;
+      if (!email) {
+        throw new Error('Email not found in session details');
+      }
+
+      const user = await User.findOne({ email });
+      if (!user) {
+        throw new Error('User not found');
+      }
+
       const logEntry = new Transaction({
         sessionId: hashedSessionId,
         customerId: session.customer || (session.customer_details && session.customer_details.email),
@@ -35,6 +46,11 @@ router.post('/', bodyParser.raw({ type: 'application/json' }), async (req, res) 
         currency: session.currency,
         paymentStatus: status,
         createdAt: new Date(session.created * 1000),
+        userDetails: { 
+          id: user._id,
+          name: user.firstName,
+          email: user.email,
+        }
       });
 
       await logEntry.save();

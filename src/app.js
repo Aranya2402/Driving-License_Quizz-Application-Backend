@@ -16,7 +16,7 @@ const viewAttempt = require("./routes/ViewAttempt");
 const submitQuiz = require("./routes/SubmitQuiz");
 const getAttemptedQuizzes = require("./routes/GetQuizAttempt")
 const createQuiz = require("./routes/CreateQuiz");
-const createCandidate = require("./routes/CreateCandidate")
+const getUser = require("./routes/GetUser")
 const { createCheckoutSession, getSessionStatus } = require('./modules/Payment/stripe-integration');
 const stripeWebHook = require('./modules/Payment/webhook');
 const transactionLog = require('./modules/TransactionLog/transaction-log')
@@ -73,10 +73,10 @@ app.use('/viewattempt', viewAttempt);
 app.use('/attempt', submitQuiz);
 app.use('/getattempts', getAttemptedQuizzes);
 app.use('/newquiz', createQuiz);
-app.use('/candidate', createCandidate);
 app.use('/newattempt', createAttempt);
 app.use('/submit', submitAttempt);
 app.use('/allquizzes', viewQuizzes)
+app.use('/user', getUser);
 
 
 //Banu
