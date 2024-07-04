@@ -23,11 +23,11 @@ router.post('/', async (req, res) => {
   module.exports = router;
 
 
-//   {
-//     "quizName": "Sample Quiz 1",
-//     "difficulty": "Easy",
-//     "quizType": true,
-//     "questions": [
-//         "662b7eaebf0984c50ac0a81e"
-//     ]
-//   }
+  // {
+  //   "quizName": "Sample Quiz 1",
+  //   "difficulty": "Easy",
+  //   "quizType": true,
+  //   "questions": [
+  //       "662b7eaebf0984c50ac0a81e"
+  //   ]
+  // }

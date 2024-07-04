@@ -15,7 +15,8 @@ const candidateAnswers = new mongoose.Schema({
 const attemptQuizSchema = new mongoose.Schema({
     candidate_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Candidate'
+        ref: 'Candidate',
+        default: null
     },
     quiz_id: {
         type: mongoose.Schema.Types.ObjectId,
