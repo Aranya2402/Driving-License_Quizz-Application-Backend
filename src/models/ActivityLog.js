@@ -7,19 +7,14 @@ const activityLogSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  action: {
-    type: String,
-    enum: ['User logged in', 'User logged out', 'User attempting'],
-    required: true,
-  },
-  timestamp: {
+  loginTime: {
     type: Date,
-    default: Date.now,
+    default:null,
   },
-  type: {
-    type: String,
-    enum: ['online', 'offline', 'attempting'],
-    required: true,
+  logoutTime: {
+    type: Date,
+    default:null,
+
   },
 });
 

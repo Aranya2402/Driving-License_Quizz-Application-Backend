@@ -33,7 +33,7 @@ const authRouter = require("./routes/auth");
 const app = express();
 
 
-app.use(cors({ origin: 'http://localhost:3001' })); //accepting request from cross-origin
+app.use(cors({ origin: 'http://localhost:3000' })); //accepting request from cross-origin
 
 app.use('/webhook', stripeWebHook);
 
@@ -44,21 +44,15 @@ app.use(bodyParser.json());
 app.use( '/api/auth', authRouter );
 
 
-//aranya
-app.post('/user-activity/login', userActivity.login); 
-app.post('/user-activity/logout', userActivity.logout); 
-app.post('/user-activity/attempting', userActivity.attempting );
+
+
 
 // Routes
+//Aranya
 // app.use('/api/exam-dashboard/exams', ExamDash);
 
-app.get('/user-activity/check', (req, res) => {
-    res.send('User activity log module is running successfully!');
-});
-
-
 app.use('/certificates', certificateRouter); 
-
+app.use('/activitylog', userActivity);
 
 
 app.post('/create-checkout-session', createCheckoutSession);
@@ -84,7 +78,7 @@ module.exports = app;
 //Fathhy
 app.use('/questions' , questionRouter)
 
-// Example middleware function
+
 const myMiddleware = (req, res, next) => {
     // Middleware logic here
     console.log('Middleware executed');
