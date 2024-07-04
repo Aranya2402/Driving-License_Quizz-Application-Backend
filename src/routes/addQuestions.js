@@ -14,5 +14,8 @@ router.route('/listOfQuestions')
 router.route('/deleteQuestion/:id')
 .delete(questionController.deleteQuestion)
 
+router.route('/updateQuestion/:id')
+.put(questionController.updateQuestion)
+
 
 module.exports = router;

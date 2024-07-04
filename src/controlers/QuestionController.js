@@ -65,5 +65,54 @@ const deleteQuestion = async (req, res) => {
     }
 };
 
+// Update question details including question text, answers, difficulty, and question type
+const updateQuestion = async (req, res) => {
+    try {
+        const { id } = req.params; // Extract question ID from request params
 
-module.exports = { createQuestionss, getQuestions, deleteQuestion};
+        const { question_text, difficulty, questionType, answers } = req.body;
+
+        // Update the question
+        const updatedQuestion = await Question.findByIdAndUpdate(id, {
+            question_text: question_text,
+            difficulty: difficulty,
+            questionType: questionType,
+        }, { new: true });
+
+        if (!updatedQuestion) {
+            return res.status(404).json({ error: 'Question not found' });
+        }
+
+        // Update answers
+        const updatedAnswers = await Promise.all(answers.map(async (answerData) => {
+            if (answerData._id) {
+                // If answer has _id, update existing answer
+                await Answer.findByIdAndUpdate(answerData._id, {
+                    answer_text: answerData.answer_text,
+                    isCorrect: answerData.isCorrect,
+                });
+                return answerData._id;
+            } else {
+                // If answer does not have _id, create new answer
+                const newAnswer = new Answer({
+                    answer_text: answerData.answer_text,
+                    isCorrect: answerData.isCorrect,
+                    question_id: id,
+                });
+                const savedAnswer = await newAnswer.save();
+                return savedAnswer._id;
+            }
+        }));
+
+        // Update question with updated answers
+        await Question.findByIdAndUpdate(id, { answers: updatedAnswers });
+
+        res.status(200).json({ message: 'Question updated successfully', updatedQuestion });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
+module.exports = { createQuestionss, getQuestions, deleteQuestion, updateQuestion};

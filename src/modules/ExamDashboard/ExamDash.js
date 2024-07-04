@@ -14,7 +14,7 @@ router.use(bodyParser.json());
 
 // Exam Schema
 
-const Exam = require('../../models/ExamDB');
+const Exam = require('../../models/Quiz');
 
 
 // Routes
