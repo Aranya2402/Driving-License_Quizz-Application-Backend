@@ -48,6 +48,7 @@ const userSchema = new mongoose.Schema({
         enum: Object.values( AuthType ),
         default: AuthType.Password
     },
+    pdf:String,
     password: String,
     resetPasswordToken: String,
     resetPasswordTokenExpire: Date,
