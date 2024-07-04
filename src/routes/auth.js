@@ -71,7 +71,22 @@ router.post('/profile',
     body('lastName')
         .trim()
         .notEmpty(),
-        authController.updateProfile
+    authController.updateProfile
+);
+
+router.post('/profile',
+    authMiddleware(UserRole.User),
+    body('password')
+        .trim()
+        .notEmpty()
+        .isStrongPassword({
+            minLength: 8,
+            minLowercase: 1,
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 1
+        }),
+    authController.updatePassword
 );
 
 module.exports = router;
