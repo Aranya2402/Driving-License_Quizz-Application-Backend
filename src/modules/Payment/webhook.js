@@ -42,10 +42,11 @@ router.post('/', bodyParser.raw({ type: 'application/json' }), async (req, res) 
       const logEntry = new Transaction({
         sessionId: hashedSessionId,
         customerId: session.customer || (session.customer_details && session.customer_details.email),
-        amountTotal: session.amount_total || (session.amount && session.amount_received),
+        amountTotal: session.amount_total/100 || (session.amount/100 && session.amount_received/100),
         currency: session.currency,
         paymentStatus: status,
         createdAt: new Date(session.created * 1000),
+        // cardLast4: cardLast4,
         userDetails: { 
           id: user._id,
           name: user.firstName,
@@ -73,6 +74,9 @@ router.post('/', bodyParser.raw({ type: 'application/json' }), async (req, res) 
       break;
     case 'checkout.session.completed':
       const checkoutCompleted = event.data.object;
+      // const paymentIntent = await stripe.paymentIntents.retrieve(checkoutCompleted.payment_intent);
+      // const paymentMethod = await stripe.paymentMethods.retrieve(paymentIntent.payment_method);
+      // const cardLast4 = paymentMethod.card.last4;
       await logTransaction(checkoutCompleted, 'completed');
       break;
     case 'payment_intent.payment_failed':

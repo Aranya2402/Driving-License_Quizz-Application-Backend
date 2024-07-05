@@ -25,6 +25,10 @@ const transactionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  cardLast4: {
+    type: String,
+    default: null
+  },
   userDetails: {
     id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     name: { type: String, required: true },
