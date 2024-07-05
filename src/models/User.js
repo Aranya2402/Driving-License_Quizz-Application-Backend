@@ -79,6 +79,13 @@ userSchema.method('fullName', function fullName() {
     return this.firstName + this.lastName;
 });
 
+userSchema.method('toJSON', function toJSON() {
+    const userObj = this.toObject();
+    delete userObj.password;
+    delete userObj.authType;
+    return userObj;
+});
+
 module.exports = {
     User: mongoose.model( 'User', userSchema ),
     AuthType,

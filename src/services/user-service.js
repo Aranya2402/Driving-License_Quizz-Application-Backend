@@ -43,6 +43,7 @@ async function createUserWithSocialAccount( firstName, lastName, email, authType
     user.lastName = lastName;
     user.email = email;
     user.role = UserRole.User;
+    user.isEmailVerified = true;
     user.authType = authType;
 
     return user.save();
