@@ -38,7 +38,7 @@ const authRouter = require("./routes/auth");
 const app = express();
 
 
-app.use(cors({ origin: 'http://localhost:3001' })); //accepting request from cross-origin
+app.use(cors({ origin: 'http://localhost:3000' })); //accepting request from cross-origin
 
 app.use('/webhook', stripeWebHook);
 
