@@ -131,7 +131,8 @@ async function resetPassword( req, res ) {
             name: user.fullName(),
         },
         subject: 'Password Reset',
-        body: `<a href='${APP_URL}/reset-password?token=${user.resetPasswordToken}'>Click here to reset password</a>`
+        body: `<a href='http://localhost:3000/reset?token=${user.resetPasswordToken}'>Click here to reset password</a>`,
+        attachments: []
     });
 
     return res.send( responseFormat.SuccessResponse('OK'));
@@ -169,7 +170,7 @@ async function updateProfile( req, res ) {
 
     const { firstName,lastName } = req.body;
 
-    const user = await userService.getUserById( req.user.id );
+    const user = await userService.getUserByEmail ( req.user.email );
     
     user.firstName = firstName;
     user.lastName = lastName;
@@ -188,10 +189,10 @@ async function updatePassword( req, res ) {
         return res.status(400).send( responseFormat.ErrorResponse( result.errors ));
     }
 
-    const { currentPassword,newPassword } = req.body;
+    const { currentPassword, newPassword } = req.body;
 
     try{
-        const user = await userService.getUserById( req.user.id );
+        const user = await userService.getUserByEmail( req.user.email );
         const isMatch = await validateUserPassword(currentPassword, user);
 
         if(!isMatch){
@@ -208,6 +209,12 @@ async function updatePassword( req, res ) {
     }
     }
 
+    async function getProfile( req, res ) {
+
+        const user = await userService.getUserByEmail(req.user.email);
+        return res.send(responseFormat.SuccessResponse(user));
+    }
+    
     
     
 
@@ -219,7 +226,8 @@ module.exports = {
     resetPassword,
     setNewPassword,
     updateProfile,
-    updatePassword
+    updatePassword,
+    getProfile
 }
     
 

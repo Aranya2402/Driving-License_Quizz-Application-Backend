@@ -74,9 +74,12 @@ router.post('/profile',
     authController.updateProfile
 );
 
-router.post('/profile',
+router.post('/change-password',
     authMiddleware(UserRole.User),
-    body('password')
+    body('currentPassword')
+        .trim()
+        .notEmpty(),
+    body('newPassword')
         .trim()
         .notEmpty()
         .isStrongPassword({
@@ -87,6 +90,12 @@ router.post('/profile',
             minSymbols: 1
         }),
     authController.updatePassword
+);
+
+router.get('/profile',
+    authMiddleware(UserRole.User),
+   
+    authController.getProfile
 );
 
 module.exports = router;

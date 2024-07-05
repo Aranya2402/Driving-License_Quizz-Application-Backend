@@ -16,8 +16,13 @@ async function signAuthToken( payload, options ) {
     return jwt.sign( payload, AUTH_TOKEN_SECRET, options );
 }
 
+async function verifyAuthToken( token, options ) {
+    return jwt.verify( token, AUTH_TOKEN_SECRET, options );
+}
+
 module.exports = {
     hashPassword,
     verifyPassword,
-    signAuthToken
+    signAuthToken,
+    verifyAuthToken
 }
