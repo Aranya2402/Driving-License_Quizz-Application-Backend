@@ -4,7 +4,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
 const createCheckoutSession = async (req, res) => {
-  const { priceId } = req.body;
+  const { priceId, email } = req.body;
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -16,7 +16,8 @@ const createCheckoutSession = async (req, res) => {
         },
       ],
       mode: 'payment',
-      return_url: `http://localhost:3001/return?session_id={CHECKOUT_SESSION_ID}`
+      customer_email: email,
+      return_url: `http://localhost:3000/return?session_id={CHECKOUT_SESSION_ID}`
     });
 
     res.send({ clientSecret: session.client_secret, id: session.id });
