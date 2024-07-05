@@ -22,8 +22,8 @@ const stripeWebHook = require('./modules/Payment/webhook');
 const transactionLog = require('./modules/TransactionLog/transaction-log')
 const submitAttempt = require("./routes/SubmitAttempt")
 const createAttempt = require("./routes/CreateAttempts");
-const viewQuizzes = require("./routes/ViewQuizzes")
-
+const viewQuizzes = require("./routes/ViewQuizzes");
+const getTransaction = require('./routes/GetTransaction');
 
 const questionRouter = require('./routes/addQuestions')
 
@@ -63,7 +63,9 @@ app.use('/certificates', certificateRouter);
 
 
 app.post('/create-checkout-session', createCheckoutSession);
+app.use('/invoice', getTransaction);
 app.get('/session-status', getSessionStatus);
+
 app.use('/transaction', transactionLog);
 
 
