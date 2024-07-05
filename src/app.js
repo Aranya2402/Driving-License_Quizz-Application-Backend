@@ -11,7 +11,7 @@ const certificateRouter = require('./modules/DCertificate/certi');
 
 const authController = require('./modules/auth/auth-controller'); //check the route
 
-const addQuestionController = require("./routes/AddQuestions_Lehaan");
+const addQuestionController = require("./routes/addQuestions");
 const viewAttempt = require("./routes/ViewAttempt");
 const submitQuiz = require("./routes/SubmitQuiz");
 const getAttemptedQuizzes = require("./routes/GetQuizAttempt")
@@ -27,6 +27,10 @@ const getTransaction = require('./routes/GetTransaction');
 
 const questionRouter = require('./routes/addQuestions')
 
+const quizController = require('./routes/CreateQuiz')
+
+
+
 
 const authRouter = require("./routes/auth");
 
@@ -34,7 +38,7 @@ const authRouter = require("./routes/auth");
 const app = express();
 
 
-app.use(cors({ origin: 'http://localhost:3000' })); //accepting request from cross-origin
+app.use(cors({ origin: 'http://localhost:3001' })); //accepting request from cross-origin
 
 app.use('/webhook', stripeWebHook);
 
@@ -70,11 +74,13 @@ app.use('/transaction', transactionLog);
 
 
 // // Lehaan
-app.use('/addQA', addQuestionController);
+
 app.use('/viewattempt', viewAttempt);
 app.use('/attempt', submitQuiz);
 app.use('/getattempts', getAttemptedQuizzes);
+
 app.use('/newquiz', createQuiz);
+
 app.use('/newattempt', createAttempt);
 app.use('/submit', submitAttempt);
 app.use('/allquizzes', viewQuizzes)
@@ -88,13 +94,4 @@ module.exports = app;
 //Fathhy
 app.use('/questions' , questionRouter)
 
-// Example middleware function
-const myMiddleware = (req, res, next) => {
-    // Middleware logic here
-    console.log('Middleware executed');
-    next(); // Call next to pass control to the next middleware or route handler
-  };
-  
-  // Using middleware in Express
-  app.use(myMiddleware);
-  
+app.use('/quiz', quizController)

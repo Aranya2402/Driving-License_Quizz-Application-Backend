@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const quizSchema = new mongoose.Schema({
     quizName: {
         type: String,
@@ -15,8 +16,19 @@ const quizSchema = new mongoose.Schema({
     },
     questions: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question'
-    }]
+        ref: 'Question',
+        default : null
+    }],
+    // imageUrl :
+    // {
+    //     type : String,
+    //     default : null
+    // },
+    description :
+    {
+        type : String,
+        default : null
+    }
 })
 
 module.exports = mongoose.model('Quiz', quizSchema);
