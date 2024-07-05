@@ -5,6 +5,7 @@ const { validateUserPassword, generateTokenPair, verifyGoogleToken, verifyFacebo
 const mailService = require('./../../services/email-service');
 
 
+
 const APP_URL = process.env.APP_URL;
 
 async function passwordLogin( req, res ) {
@@ -179,13 +180,46 @@ async function updateProfile( req, res ) {
 }
 
 
+async function updatePassword( req, res ) {
+
+    const result = validationResult(req);
+
+    if ( !result.isEmpty()) {
+        return res.status(400).send( responseFormat.ErrorResponse( result.errors ));
+    }
+
+    const { currentPassword,newPassword } = req.body;
+
+    try{
+        const user = await userService.getUserById( req.user.id );
+        const isMatch = await validateUserPassword(currentPassword, user);
+
+        if(!isMatch){
+            return res.status(400).send(responseFormat.ErrorResponse('Current password is incorrect'));
+        }
+
+        await userService.setNewPassword(user, newPassword);
+        await user.save();
+
+        return res.send(responseFormat.SuccessResponse('Password updated successfully'));
+    }catch(error){
+        console.error('Error updating password:', error);
+        return res.status(500).send(responseFormat.ErrorResponse('An error occurred while updating the password. Please try again.'));
+    }
+    }
+
+    
+    
+
+
 module.exports = {
     passwordLogin,
     signUpUser,
     exchangeToken,
     resetPassword,
     setNewPassword,
-    updateProfile
+    updateProfile,
+    updatePassword
 }
     
 
