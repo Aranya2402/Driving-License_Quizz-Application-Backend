@@ -37,6 +37,36 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.get('/', async (req, res) => {
+    try {
+        const { email } = req.query;
+
+        // Find candidate by email
+        const candidate = await Candidate.findOne({ email });
+        if (!candidate) {
+            return res.status(404).json({ message: 'Candidate not found' });
+        }
+
+        const attempts = await AttemptQuiz.find({ candidate_id: candidate._id }).populate('quiz_id');
+
+        if (attempts.length === 0) {
+            return res.status(404).json({ message: 'No attempts found for this candidate' });
+        }
+
+        
+        const latestAttempt = attempts[0];
+
+        const certificateData = {
+            recipientName: candidate.name, 
+            courseName: latestAttempt.quiz_id.title, 
+            completionDate: latestAttempt.quiz_date,
+        };
+
+        res.json(certificateData);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
 module.exports = router;
 
 
