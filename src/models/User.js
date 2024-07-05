@@ -48,6 +48,10 @@ const userSchema = new mongoose.Schema({
         enum: Object.values( AuthType ),
         default: AuthType.Password
     },
+    isPremium: {
+        type: Boolean,
+        default: false
+    },
     pdf:String,
     password: String,
     resetPasswordToken: String,
