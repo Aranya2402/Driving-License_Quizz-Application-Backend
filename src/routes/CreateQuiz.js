@@ -8,6 +8,12 @@ const router = express.Router();
   router.route('/createQuiz')
   .post(quizcontroller.createQuiz)
 
+  router.route('/getquizQuestions/:id')
+  .get(quizcontroller.getQuiz);
+
+  router.route('/deleteQuiz/:id')
+  .delete(quizcontroller.deleteQuiz)
+  
 
   module.exports = router;  
 
